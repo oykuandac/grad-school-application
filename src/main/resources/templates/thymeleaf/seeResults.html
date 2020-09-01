@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/interview.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+</head>
+<body style="background-color:#f4f4f4;"> 
+	<div class="header">
+    <div class="header-section-1" >
+        <div class="site-logo" >
+            <a href="/index" class="header-logo" >
+              <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png" style="width: 
+              80%;">
+           </a>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" class="active">Home</a>
+  <a href="/news">Announcements</a>
+
+
+
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+	<br><br><br>
+<div class ="container">
+    <div class = "card">
+      <div class = "card-block">
+          <table class = "table table-hover">
+            <thead>
+              <tr style="margin-left: 20%;">
+					<th >Result</th>                
+                  <th >Applicant Name</th>
+                  <th >Applicant Surname</th>
+   				  <th >Applicant E-mail</th>
+   				  <th >Department</th>
+   				  
+                  
+            </tr>   
+            </thead>
+            <tbody>
+		
+			<tr th:each="app : ${data}" name="rows" style="display: none;" >
+                 <td><div th:if="${app.isAccepted()}">
+				    <div>Accepted</div>
+				  </div>
+				  <!-- ELSE -->
+				 <div th:unless="${app.isAccepted()}">
+	   				<div>Rejected</div>
+	   			  </div></td>
+                  <td th:text="${app.getUser().getName()}"> </td>
+                   <td th:text="${app.getUser().getSurname()}"> </td>
+                  <td th:text="${app.getUser().getEmail()}"> </td>
+                  
+                  <td th:text="${app.getPreApplication().getDept()}"> </td> 
+			</tr>   
+    
+            </tbody>
+        
+        </table>
+      
+      </div>
+        
+    </div>
+
+	<ul class="pagination" style="float: right;">
+		<li class="page-item">
+		  <a class="page-link"  onclick="goPrevPage();" aria-label="Previous" style="color: black;">
+			<span aria-hidden="true">&laquo;</span>
+		  </a>
+		</li>
+	
+		<div id="paginationButtons" style="float: right;">
+		
+	
+		</div>
+	
+		<li class="page-item">
+		  <a class="page-link" onclick="goNextPage();" aria-label="Next" style="color: black;">
+			<span aria-hidden="true">&raquo;</span>
+		  </a>
+		</li>
+	  </ul>
+
+  </div>
+</body>
+</html>
+
+
+<script>
+var numberOfRows = 3;
+var trs = document.getElementsByName("rows");
+var currentPage = 0;
+var numberOfPages =  Math.ceil(trs.length/numberOfRows);
+
+
+
+
+window.onload = function(){ 
+  for(var i = 0; i < numberOfRows; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="table-row";
+  }
+  for(var i = 0; i < numberOfPages; i++){
+    var li = document.createElement("li");
+    
+    li.className ="page-item";
+    li.id=i;
+
+    li.onclick=function(){
+      goGivenPage(parseInt(this.getAttribute('id'))); 
+    }
+
+    li.style.color="black";
+    li.style.float="left";
+    li.style.margin="1px";
+
+
+    
+    var lbl = document.createElement("label");
+    lbl.className = "page-link"
+    lbl.style.color = "black";
+    lbl.innerHTML = i;
+    lbl.id = "li"+i;    
+
+     li.appendChild(lbl);
+
+    document.getElementById("paginationButtons").appendChild(li);
+
+    
+  } 
+  document.getElementById("li0").style.borderColor = "#91080F";
+  document.getElementById("li0").style.borderWidth = "medium";
+}
+
+
+function goGivenPage(pageNo){
+  if(0 <= pageNo &&  pageNo < numberOfPages){
+    document.getElementById("li"+currentPage).style.borderColor = "";
+    document.getElementById("li"+currentPage).style.borderWidth = "thin";
+    hidePrew();
+    currentPage = pageNo;
+    displayCurrentPage();
+    document.getElementById("li"+currentPage).style.borderColor = "#91080F";
+    document.getElementById("li"+currentPage).style.borderWidth = "medium";
+
+  }
+}
+
+
+function hidePrew(){
+  for(var i = currentPage * numberOfRows; i < currentPage*numberOfRows+ numberOfRows; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="none";  
+  }
+  
+}
+
+
+function displayCurrentPage(){
+  for(var i = currentPage * numberOfRows; i < currentPage * numberOfRows + numberOfRows ; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="table-row";
+  } 
+  
+}
+
+function goNextPage(){
+    goGivenPage(currentPage + 1);
+}
+
+function goPrevPage(){
+  goGivenPage(currentPage - 1);
+}
+
+
+
+
+</script>

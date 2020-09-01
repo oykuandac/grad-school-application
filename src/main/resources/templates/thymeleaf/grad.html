@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+
+.tab-content.profile-tab input[type="button"]:disabled {
+  background: #808080;
+}
+
+
+</style>
+  <title>Grad School Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/grad.css">
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+
+</head>
+<body th:onload="'javascript:buttonGenerator(' + ${data.finishComfirmation} + ',' + ${data.finishVerification} +',' + ${data.deliverInterviews} +',' + ${data.deliverNotes} + ' )'">
+<div class="header">
+    <div class="header-section-1" >
+        <div class="site-logo" >
+            <a href="/index" class="header-logo" >
+              <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png" style="width: 
+              80%;">
+           </a>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" class="active">Home</a>
+  <a href="/news">Announcements</a>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+
+
+<div class="container emp-profile" style="background-color: #e4e4e4;">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src="https://pngimage.net/wp-content/uploads/2018/06/profil-icon-png-4.png"alt=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">
+                                    <h1>
+                                        Grad School
+                                    </h1>
+                                    <br><br>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" style="color:#91080F;background-color:#E4E4E4;border-color:#E4E4E4;">Operations</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                       
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-work">
+                            
+                             <div class="row">
+                                <div class="col-md-8">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-8">
+                                  <p style="color:#6c757d" th:text="${username}"></p>
+                                </div>
+                            </div>
+                            
+                                   <form th:action="logout" method="post" id="logoutform">
+									<input style="background-color: #808080;" type="submit" value="Logout"/>
+									  <input type="hidden" name="${_csrf.parameterName}" value= "${_csrf.token}"/>
+										<h3 id="sa"></h3>
+	 							 </form>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                           <input type="button" th:onclick="'javascript:openAddFilePane()'" name="Announce detailse" value="Announce application details"/>
+                           <br> <br>                        
+						   <input type="button" onclick="window.open('applications/grad/getAll','_self');" name="Announce detailse" value="See All Applications"/><br><br>  
+						   
+						   	                    	
+	                    	<form th:action="@{/startApplications}" method = "post" id="start" >
+	                    		<input type="button" onclick="startApplications();" name="Start Applications" value="Start Applications"/> 
+	                    		<br><br>
+	                    	</form>
+	                    	
+	                    	<form th:action="@{/stopApplications}" method = "post" id="stop" >
+	                    		<input type="button" onclick="stopApplications();" name="Stop Applications" value="Stop Applications"/> 
+	                    		<br><br>
+	                    	</form>
+	                    	
+	                    	
+                           	
+                           	<form th:action="@{/deliverApplicationsToDepartment}" method ="post" id="deliverForm">
+	                            <input type="button" onclick="deliverButton();" id="deliver" name="Deliver the applications to Department" value="Deliver the Applications to Department"/>
+	                            <br><br>                	
+	                    	</form>	
+	                    						
+	 						<form th:action="@{/interviewDateAndLocation/announce}" method ="post" id="interviewForm">
+	                            <input type="button" onclick="interviewButton();" id="annoInter" name="Announce interview date and location" value="Announce Interview Date and Location"/><br><br>                	
+	                    	</form>
+                  
+                            <form th:action="@{/announceResults}" method ="post" id="resultForm">
+	                            <input type="button" onclick="resultButton();"  id="annoResult" name="Announce Results" value="Announce Results"/><br><br>                	
+	                    	</form>
+	                    	
+
+	                    	
+	                    	                                                                                            
+                    </div>
+                </div>
+     
+        </div>
+                       
+<div id="id01" align="center" class="modal" style="padding-top: 250px;height: 600px;">
+  
+    <div class="container" style="height: 400px;" align="center"><br><br>
+    		<form id="announceForm" class="modal-content animate"  style="width: 50%;"th:action="@{/announcement/add}" method="post" th:object="${announcement}"><br>
+                <p style="text-align: center;">Title:<br> <input type="text" name="title" style="background-color:white; border-color: #424242; color:black;" /></p>
+               	  <p style="text-align: center;">Text:<br> <textarea rows="4" cols="50" name="text"></textarea></p> 
+                <p style="text-align: center; ">
+                <input onclick="announceButtonFunction();" style="border-color: #91080F; background-color: #91080F;" type="button" value="Submit" />
+                 <input style="border-color: #91080F; background-color: #91080F;" type="reset" value="Reset" /></p>            </form>
+      
+    </div>
+</div>
+
+</body>
+
+<script>
+
+
+
+	
+	var msg = '[[${data.appsStartStop}]]';
+	console.log(typeof msg);
+	var start = document.getElementById("start");
+	var stop = document.getElementById("stop");
+
+	if(msg == "true"){
+		start.style.display="none";
+		stop.style.display="block";
+	}
+	if(msg == "false"){
+		console.log("else");
+		start.style.display="block";
+		stop.style.display="none";
+		
+	}	
+	
+
+
+
+
+
+
+function buttonGenerator(finishComfirmation ,finishVerification,deliverInterviews,deliverNotes){
+	document.getElementById("deliver").disabled = true;
+	document.getElementById("annoInter").disabled = true;
+	document.getElementById("annoResult").disabled = true;
+	
+	if(finishVerification==true & deliverInterviews ==true & deliverNotes==true){
+		document.getElementById("deliver").disabled = false;
+		document.getElementById("annoInter").disabled = false;
+		document.getElementById("annoResult").disabled = false;
+	}else if(finishVerification==true & deliverInterviews ==true){
+		document.getElementById("deliver").disabled = false;
+		  document.getElementById("annoInter").disabled = false;
+		  document.getElementById("annoResult").disabled = true;
+	}else if(finishVerification==true){
+		  document.getElementById("deliver").disabled = false;
+	}	
+}
+
+
+function openAddFilePane(){	
+	var modal = document.getElementById('id01').style.display='block'	
+}
+
+var modal = document.getElementById('id01');
+
+//When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+if (event.target == modal) {
+   modal.style.display = "none";
+}
+}
+
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+
+
+function resultButton(){
+	document.getElementById("resultForm").submit();
+	window.alert("Results are Announced Succesfully");
+}
+
+function interviewButton(){
+	document.getElementById("interviewForm").submit();
+	window.alert("Interview Dates and Locations Announced Succesfully");
+}
+
+function deliverButton(){
+	document.getElementById("deliverForm").submit();
+	window.alert("Applications Are Delivered To Department Succesfully");
+}
+
+function announceButtonFunction(){
+	document.getElementById("announceForm").submit();
+	window.alert("Announcement made successfully");	
+}
+
+function stopApplications(){
+	document.getElementById("stop").submit();
+	window.alert("Applications Stopped Successfully");
+}
+
+function startApplications(){
+	document.getElementById("start").submit();
+	window.alert("Applications Started Successfully");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function announceDateAndLocation(){
+	var http = new XMLHttpRequest();
+	var url = 'http://localhost:8080/interviewDateAndLocation/announce';
+	var params = 'announceDateAndLocations=true';
+	http.open('POST', url, true);
+
+
+	http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+
+	http.send(params);
+	
+}
+
+
+
+</script>
+
+</html>

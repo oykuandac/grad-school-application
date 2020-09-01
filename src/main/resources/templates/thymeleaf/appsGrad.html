@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<style>
+		#a{
+	  background-color: #424242;
+	  color: white;
+	  padding: 14px 20px;
+	  margin: 8px 0;
+	  border: none;
+	  cursor: pointer;
+	  width: 100%;
+	
+	  }
+	button{
+	   background-color: #91080F;
+	  color: white;
+	  padding: 14px 20px;
+	  margin: 8px 0;
+	  border: none;
+	  cursor: pointer;
+	  width: auto;
+	  height: auto;
+	  font-family:TimesNewRoman;
+	  font-size:25px;
+	}
+	.modal-body input:focus{
+	  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+	  
+  }
+  input:focus{
+	  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+	  
+	}
+	
+	#collapseButton{
+	  padding:1%;
+	  margin: 2px 0;
+	  float: right; 
+	   background-color: #91080F;
+	  width: auto;
+	  font-family:TimesNewRoman;
+	  font-size:20px;
+	}
+	
+	.collapse label{
+	   font-family:TimesNewRoman;
+	     font-size:23px;
+	}
+	.card-block th{
+	  font-weight:bold; font-family:TimesNewRoman;  font-size:25px;
+	}
+	
+	.card-block td{
+	  font-weight:normal; font-family:TimesNewRoman;  font-size:23px;
+	}
+		
+	</style>
+
+    <title>Applications</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" href="/css/appsGrad.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/appGrad.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body style="background-color:#f4f4f4;"> 
+<div class="header">
+    <div class="header-section-1" >
+        <div class="site-logo" >
+            <a href="/index" class="header-logo" >
+              <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png" style="width: 
+              80%;">
+           </a>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" class="active">Home</a>
+  <a href="/news">Announcements</a>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+  <br><br><br>
+  <div class ="container" style="width:65%">
+    <div class = "card">
+      <div class = "card-block">
+          <table class = "table table-hover" >
+            <thead>
+              <tr>
+                  <th style="width:50px">id</th>
+                  <th style="width:250px">Applicant Name</th>
+                  <th  style="width:220px">Download File</th>
+                  <th  style="width:200px">PreApplication</th>                  
+                                    
+                  <th style="float: right;">Set</th>
+            </tr>   
+            </thead>
+            <tbody>
+              <tr th:each="app : ${data}" name="rows" style="display: none;">
+                  <td th:text="${app.id}">   </td>
+                  <td th:text="${app.user.getName()} +'  ' +  ${app.user.getSurname()}"></td>
+                  <td>
+                 	 <!--  <form action="/downloadFile/"+fileId+"\" method=\"GET\" id='form'>
+					    	<button  type='submit'> download app file </button>
+					 </form>-->
+                 <a th:href="@{findFilesByAppId(id=${app.id})}" style="color: white; width:auto; background-color: #91080F;border: none; font-family:TimesNewRoman;  font-size:20px " class="btn btn-primary eBtnn">Download files</a>
+                  </td>
+                  <td>
+                     <a th:href="@{/findPreAppByAppId(id=${app.id})}" style="color: white; width:auto; background-color: #91080F;border: none; font-family:TimesNewRoman;  font-size:20px " class="btn btn-primary eBtnnn">Open</a>
+                  </td>
+                  <td>
+					  <button type="button" id="collapseButton" class="btn btn-info" data-toggle="collapse" th:data-target="'#edit' + ${app.id}" style=" margin:center; padding: 0;  width:auto; background-color: #91080F;border: none; font-family:TimesNewRoman;  font-size:20px ">Edit</button>
+					  <div th:id="'edit' + ${app.id}" class="collapse">
+					    
+					    <form th:action="@{/application/setIsConfirm}" method ="post">
+					    	<input type="hidden" class="form-control" id="id" name = "appId" th:value="${app.id}">
+	    	                <label for="'isconfirm' + ${app.id}" style=" font-family:TimesNewRoman;  font-size:23px; padding: 0;">Confirm</label>                		    	                
+					    	<input type='radio' name='isConfirm' th:id="'isconfirm' + ${app.id}" value="true" th:checked="${app.isConfirmed()}"/>
+	    	                <label for="'isreject' + ${app.id}" style=" font-family:TimesNewRoman;  font-size:23px; padding: 0;">Reject</label>                		    	                					     
+					    	<input type='radio' name='isConfirm' th:id="'isreject' + ${app.id}" value="false" />                 	
+                            <input type="submit" class="btn btn-primary EBtn" style=" margin:center; padding: 1px;  width:auto; background-color: #91080F;border: none; font-family:TimesNewRoman;  font-size:20px " value="save"/>                    	
+                    	</form>
+                 	    <a th:href="@{findAppById(id=${app.id})}" style="color: white; width:auto; background-color: #91080F;border: none; font-family:TimesNewRoman;  font-size:20px; padding: 0; " class="btn btn-primary eBtn">Inform Applicant</a>
+                 	    
+					  </div>
+				</td> 
+             </tr> 
+                     
+            </tbody>        
+        </table>      
+      </div>        
+    </div> 
+    
+       
+  <input style=" margin:center; padding: 0;  width:auto; " type="button" th:onclick="'javascript:openAddFilePane()'" name="Announce detailse" value="Finish Comfirmation Process"/>  		
+  
+  <div id="id01" align="center" class="modal" style="padding-top: 250px; ">
+  
+    <div class="container" style="height: 200px; background-color: #fff; border-radius: 5px; border: 1px solid #ddd; box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27); " align="center"><br><br>
+    	<p style="font-size: 20px;">Are you sure to finishing comfirmation process from now on you can not change any comfirmation???</p>
+  		<form th:action="@{/finishComfirmation}" method ="post">
+       		<input type="submit" class="btn btn-primary EBtn" style=" margin:center; padding: 0;  width:auto; background-color: #91080F;border: none; font-family:TimesNewRoman;  font-size:20px " value="Finish Comfirmation Process"/>                    	
+  		</form>
+      
+    </div>
+  </div>
+
+
+ <ul class="pagination" style="float: right;">
+    <li class="page-item">
+      <a class="page-link"  onclick="goPrevPage();" aria-label="Previous" style="color: black;">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    <div id="paginationButtons" style="float: right;">
+    
+
+    </div>
+
+    <li class="page-item">
+      <a class="page-link" onclick="goNextPage();" aria-label="Next" style="color: black;">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+
+
+
+ </div>
+  <div class="myForm">
+    <form th:action="@{/sendMail}" method ="post">  
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">  
+                <input type="hidden" class="form-control" id="email" name = "email" value="">                   
+                     
+                <div class="form-group">
+                  <label for="date" class="form-control-label">Subject:</label>
+                  <input type="text" class="form-control" id="title" name = "title" value="" >
+                </div>
+                <div class="form-group">
+                  <label for="location" class="form-control-label">Text:</label>
+                  <br>
+					<textarea rows="4" cols="50" name="text"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+             
+              <input type="submit" class="btn btn-primary" style="background-color:#91080F; border:none;" value="save"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+  </div>
+  
+  <div class="myForm2">
+      <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Files</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">  
+                <ol id="fileList">
+
+				</ol> 
+                
+            </div>
+            <div class="modal-footer">         
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+    
+<div class="myForm3">
+      <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Pre Application</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">  
+                <p id="name"></p>
+                <p id="surname"></p>
+                <p id="gender"></p>
+                <p id="birthdate"></p>
+                <p id="number"></p>
+                <p id="nationality"></p>
+                <p id="citizen"></p>
+                <p id="working"></p>
+                <p id="degree"></p>
+                <p id="tcno"></p>
+                <p id="address"></p>
+                <p id="uni"></p>
+                <p id="dept"></p>
+                <p id="gpa"></p>
+                <p id="ales"></p>
+                               
+            </div>
+            <div class="modal-footer">         
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+    
+
+</body>
+</html>
+
+
+<script>
+
+function openAddFilePane(){	
+	var modal = document.getElementById('id01').style.display='block'	
+}
+
+var modal = document.getElementById('id01');
+
+//When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+if (event.target == modal) {
+   modal.style.display = "none";
+}
+}
+var numberOfRows = 3;
+var trs = document.getElementsByName("rows");
+var currentPage = 0;
+var numberOfPages =  Math.ceil(trs.length/numberOfRows);
+
+
+
+
+window.onload = function(){ 
+  for(var i = 0; i < numberOfRows; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="table-row";
+  }
+  for(var i = 0; i < numberOfPages; i++){
+    var li = document.createElement("li");
+    
+    li.className ="page-item";
+    li.id=i;
+
+    li.onclick=function(){
+      goGivenPage(parseInt(this.getAttribute('id'))); 
+    }
+
+    li.style.color="black";
+    li.style.float="left";
+    li.style.margin="1px";
+
+
+    
+    var lbl = document.createElement("label");
+    lbl.className = "page-link"
+    lbl.style.color = "black";
+    lbl.innerHTML = i;
+    lbl.id = "li"+i;    
+
+     li.appendChild(lbl);
+
+    document.getElementById("paginationButtons").appendChild(li);
+
+    
+  } 
+  document.getElementById("li0").style.borderColor = "#91080F";
+  document.getElementById("li0").style.borderWidth = "medium";
+}
+
+
+function goGivenPage(pageNo){
+  if(0 <= pageNo &&  pageNo < numberOfPages){
+    document.getElementById("li"+currentPage).style.borderColor = "";
+    document.getElementById("li"+currentPage).style.borderWidth = "thin";
+    hidePrew();
+    currentPage = pageNo;
+    displayCurrentPage();
+    document.getElementById("li"+currentPage).style.borderColor = "#91080F";
+    document.getElementById("li"+currentPage).style.borderWidth = "medium";
+
+  }
+}
+
+
+function hidePrew(){
+  for(var i = currentPage * numberOfRows; i < currentPage*numberOfRows+ numberOfRows; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="none";  
+  }
+  
+}
+
+
+function displayCurrentPage(){
+  for(var i = currentPage * numberOfRows; i < currentPage * numberOfRows + numberOfRows ; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="table-row";
+  } 
+  
+}
+
+function goNextPage(){
+    goGivenPage(currentPage + 1);
+}
+
+function goPrevPage(){
+  goGivenPage(currentPage - 1);
+}
+
+
+
+
+
+
+</script>

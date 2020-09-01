@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	  <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+	   
+	  <form action="#" th:action="@{/announcement/add}" th:object="${announcement}" method="post">
+    	<p>Id: <input type="text" th:field="*{title}" /></p>
+        <p>Message: <input type="text" th:field="*{text}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+	  
+
+</body>
+</html>

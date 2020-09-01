@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+   <meta charset="utf-8">
+<title>Update Pre Application Form</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/css/preapp.css">
+<link rel="stylesheet" type="text/css" href="/css/index.css">
+
+</head>
+<body>
+<div class="header">
+    <div class="header-section-1">
+        <div class="site-logo">
+            <a href="/index" class="header-logo">
+    <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png"/>
+  </a>
+        </div>
+    </div>
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" >Home</a>
+  <a href="/news">Announcements</a>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+
+</script>
+<br>
+<div class="container" >
+  <h1 style="text-align: center;">Update Pre Application Form</h1>
+  <form th:action="@{/update/preApplication}"  method="POST" id="form"  > 
+            <div class="col">  
+            <input type="hidden" id="name" name="preAppId" placeholder="Name" th:value="${preApp.id}">
+            
+            <input type="text" id="name" name="name" placeholder="Name" th:value="${preApp.name}">
+            <br><br>
+            <input type="text" id="gender" name="gender" placeholder="Gender" th:value="${preApp.gender}">
+            <br><br>
+            <input type="text" id="number" name="number" placeholder="number"  th:value="${preApp.number}">
+            <br><br>
+          </div>
+
+          <div class="col">  
+            <input type="text" id="surname" name="surName" placeholder="Surname" th:value="${preApp.surName}">
+            <br><br>
+            <input type="date" id="date" name="birthDate" placeholder="BirthDate" th:value="${#dates.format(preApp.birthDate, 'yyyy-MM-dd')}">
+            <br><br>
+            <input type="text" id="nationality" name="nationality" placeholder="Nationality" th:value="${preApp.nationality}">
+            <br><br>
+          </div>
+          
+          <div style="margin-left: 35%;">
+           <label for="citizen" id="citizen">Are you citizen of Repuclic of Turkey?</label>
+
+              <select name = "citizen" th:value="${preApp.citizen}">
+                <option value="yes" th:selected="${preApp.citizen=='yes'}">Yes</option>
+                <option value="no" th:selected="${preApp.citizen=='no'}">No</option>
+              </select>
+                         <br><br>
+
+           <label for="working" id="work">Are you working?</label>
+
+              <select name="working">
+                <option value="yes" th:selected="${preApp.working=='yes'}">Yes</option>
+                <option value="no" th:selected="${preApp.working=='no'}">No</option>
+              </select><br><br>
+
+           <label for="degree"id="degree">Which degree to Apply?</label>
+
+              <select name = "degree" th:value="${preApp.degree}">
+                <option value="phd" th:selected="${preApp.degree=='phd'}">PhD</option>
+                <option value="master" th:selected="${preApp.degree=='master'}">Masters</option>
+                <option value="pmaster" th:selected="${preApp.degree=='pmaster'}">PhD Without Masters</option>
+              </select><br><br>
+              </div>
+            <input type="text" id="tcno" name="tcno" placeholder="TC No/Passport No" th:value="${preApp.tcno}">
+            <br><br>
+            <input type="text" id="address" name="address" placeholder="address"  th:value="${preApp.address}">
+            <br><br>
+            <input type="text" id="university" name="university" placeholder="university"  th:value="${preApp.university}">
+            <br><br>
+            
+           <!-- <label for="dept"id="dept">Department to Apply</label>
+				<p style="padding-left: 210px" th:text="'Department: ' + ${preApp.dept}"></p> --> 
+            <input type="hidden" id="dept" name="dept" placeholder="dept"  th:value="${preApp.dept}">
+				
+              <!--<select name = "dept" th:value="${preApp.dept}">
+                <option value="Computer Engineering" th:selected="${preApp.dept=='Computer Engineering'}">Computer Engineering</option>
+                <option value="Physics" th:selected="${preApp.dept=='Physics'}">Physics</option>
+                <option value="Machine Engineering" th:selected="${preApp.dept=='Machine Engineering'}">Machine Engineering</option>
+              </select><br><br>-->
+            <br><br>
+            <input type="text" id="gpa" name="gpa" placeholder="GPA" th:value="${preApp.gpa}">
+            <br><br>
+            <input type="text" id="ales" name="ales" placeholder="ALES Result" th:value="${preApp.ales}">
+            <br><br>           
+                
+            <input type = "submit" value = "Save Changes"  id="sbmt" style="background-color:#91080F">  
+  
+  </form>
+</div>
+  
+
+  
+  
+   <script type="text/javascript" src="js/registerAndLoginFunctions.js"></script>
+  
+</body>
+
+</html>

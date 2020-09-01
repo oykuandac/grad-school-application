@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/interview.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+</head>
+<body style="background-color:#f4f4f4;"> 
+	<div class="header">
+    <div class="header-section-1" >
+        <div class="site-logo" >
+            <a href="/index" class="header-logo" >
+              <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png" style="width: 
+              80%;">
+           </a>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" class="active">Home</a>
+  <a href="/news">Announcements</a>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+	<br><br><br>
+<div class ="container">
+    <div class = "card">
+      <div class = "card-block">
+          <table class = "table table-hover">
+            <thead>
+              <tr style="margin-left: 20%;">
+                  <th width="10%">id</th>
+                  <th width="40%">Applicant First Name</th>
+                  <th >set</th>
+                  
+            </tr>   
+            </thead>
+            <tbody>
+		
+			<tr th:each="interview : ${data}" name="rows" style="display: none;" >
+                  <td th:text="${interview.id}"> </td>
+                  <td th:text="${interview.application.getUser().getName()}"></td>
+                  <td>
+                    <form th:action="@{/interview/update}" method ="post">
+                      <label for="note" class="form-control-label" >Note:</label>
+                      <input type="hidden" class="form-control" id="id" name = "id" th:value="${interview.id}">                   
+                        <input type="text" class="form-control" style="width: 20%;" id="note" name = "note" th:value="${interview.note}">
+                        <input type="submit" class="btn btn-primary EBtn" style="float:right; background-color: #91080F;border: none;" value="save"/>
+                    </form>
+                  </td>
+			</tr>   
+            </tbody>
+        
+        </table>
+      
+      </div>
+        
+    </div>
+
+  <input type="button" th:onclick="'javascript:openAddFilePane()'" name="Announce detailse" value="Finish Giving Notes"/>  		
+  
+  <div id="id01" align="center" class="modal" style="padding-top: 250px;">
+  
+    <div class="container" style=" width: 200px; height: 200px; background-color: #fff; border-radius: 5px; border: 1px solid #ddd; box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27); " align="center"><br><br>
+    	<p>Are you sure???</p>
+  		<form th:action="@{/deliverNotesToGrad}" method ="post">
+       		<input type="submit" class="btn btn-primary EBtn" style=" margin:center; padding: 1%;  width:auto; background-color: #91080F;border: none; font-family:TimesNewRoman;  font-size:20px " value="Finish"/>                    	
+  		</form>
+      
+    </div>
+  </div>
+
+	<ul class="pagination" style="float: right;">
+		<li class="page-item">
+		  <a class="page-link"  onclick="goPrevPage();" aria-label="Previous" style="color: black;">
+			<span aria-hidden="true">&laquo;</span>
+		  </a>
+		</li>
+	
+		<div id="paginationButtons" style="float: right;">
+		
+	
+		</div>
+	
+		<li class="page-item">
+		  <a class="page-link" onclick="goNextPage();" aria-label="Next" style="color: black;">
+			<span aria-hidden="true">&raquo;</span>
+		  </a>
+		</li>
+	  </ul>
+
+  </div>
+</body>
+</html>
+
+
+<script>
+
+function openAddFilePane(){	
+	var modal = document.getElementById('id01').style.display='block'	
+}
+
+var modal = document.getElementById('id01');
+
+//When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+if (event.target == modal) {
+   modal.style.display = "none";
+}
+}
+
+
+var numberOfRows = 3;
+var trs = document.getElementsByName("rows");
+var currentPage = 0;
+var numberOfPages =  Math.ceil(trs.length/numberOfRows);
+
+
+
+
+window.onload = function(){ 
+  for(var i = 0; i < numberOfRows; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="table-row";
+  }
+  for(var i = 0; i < numberOfPages; i++){
+    var li = document.createElement("li");
+    
+    li.className ="page-item";
+    li.id=i;
+
+    li.onclick=function(){
+      goGivenPage(parseInt(this.getAttribute('id'))); 
+    }
+
+    li.style.color="black";
+    li.style.float="left";
+    li.style.margin="1px";
+
+
+    
+    var lbl = document.createElement("label");
+    lbl.className = "page-link"
+    lbl.style.color = "black";
+    lbl.innerHTML = i;
+    lbl.id = "li"+i;    
+
+     li.appendChild(lbl);
+
+    document.getElementById("paginationButtons").appendChild(li);
+
+    
+  } 
+  document.getElementById("li0").style.borderColor = "#91080F";
+  document.getElementById("li0").style.borderWidth = "medium";
+}
+
+
+function goGivenPage(pageNo){
+  if(0 <= pageNo &&  pageNo < numberOfPages){
+    document.getElementById("li"+currentPage).style.borderColor = "";
+    document.getElementById("li"+currentPage).style.borderWidth = "thin";
+    hidePrew();
+    currentPage = pageNo;
+    displayCurrentPage();
+    document.getElementById("li"+currentPage).style.borderColor = "#91080F";
+    document.getElementById("li"+currentPage).style.borderWidth = "medium";
+
+  }
+}
+
+
+function hidePrew(){
+  for(var i = currentPage * numberOfRows; i < currentPage*numberOfRows+ numberOfRows; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="none";  
+  }
+  
+}
+
+
+function displayCurrentPage(){
+  for(var i = currentPage * numberOfRows; i < currentPage * numberOfRows + numberOfRows ; i++){
+    if(i == trs.length)break;
+    trs[i].style.display="table-row";
+  } 
+  
+}
+
+function goNextPage(){
+    goGivenPage(currentPage + 1);
+}
+
+function goPrevPage(){
+  goGivenPage(currentPage - 1);
+}
+
+
+
+
+</script>
+
+
+
+
+
+

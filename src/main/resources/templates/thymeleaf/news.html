@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+  <title>Applicant Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/news.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="/js/appGrad.js"></script>
+
+</head>
+<body style="background-color:#f4f4f4;">
+<div class="header">
+    <div class="header-section-1" >
+        <div class="site-logo" >
+            <a href="/index" class="header-logo" >
+              <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png" style="width: 
+              80%;">
+           </a>
+        </div>
+    </div>
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" class="active">Home</a>
+  <a href="#news">Announcements</a> 
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+<div class="wrap">
+  <div><h1 class="title">Announcements</h1></div>
+  
+  		<div id="result">
+  			<h4 style="font-weight:bold;">Results</h4>
+  			<a href="/seeResults">To See Results</a>
+  			<hr style="border-top: 2px solid #8c8b8b; ">
+  		</div>
+  		
+  		<div id="interview">
+  			<h4 style="font-weight:bold;">Interview Date and Locations</h4>
+  			<a href="/interviewDateAndLocation">To See Date and Locations</a>
+  			<hr style="border-top: 2px solid #8c8b8b; ">
+  		</div>
+  
+  		<div th:each="ann : ${data}"  >
+  			<h4 th:text="${ann.title}" style="font-weight:bold;"> </h4>
+  			<p th:text="${ann.text}" style="word-wrap: break-word;"> </p>
+  			<hr style="border-top: 2px solid #8c8b8b; ">
+  	    </div>   
+  <p class="reply">
+  </p>
+</div>
+
+<script>
+
+document.getElementById("interview").style.display="none";
+document.getElementById("result").style.display="none";
+
+var interview = '[[${interview}]]' ;
+var result = '[[${result}]]' ;
+
+if(interview == "true"){
+	document.getElementById("interview").style.display="block";
+}
+
+if(result == "true"){
+	document.getElementById("result").style.display="block";
+}
+
+
+
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+var getData = [];
+var usersList = [];
+
+function status(response) {
+  //Check Promise
+  if (response.status >= 200 && response.status < 300) {
+    return Promise.resolve(response)
+  } else {
+    return Promise.reject(new Error(response.statusText))
+  }
+}
+
+function json(response) {
+  //Return JSON format
+  return response.json()
+}
+
+function getUsers(){
+  
+  fetch('https://jsonplaceholder.typicode.com/users')
+  .then(status)
+  .then(json)
+  .then(function(dataList) {
+    usersList = dataList;    
+    dataList.forEach(function(data){
+      $('#selUser').append($('<option>', { 
+        value: data.id,
+        text : data.name 
+    }));
+      
+    });
+    getPosts("");
+    
+    
+  })
+  .catch(function(error) {
+    console.log('Fetch User Error :-S', error);
+  });
+  
+}
+
+function getPosts(option){
+  
+  fetch()
+  .then(status)
+  .then(json)
+  .then(function(dataList) {
+    getData = dataList;
+    var divReply = $(".reply")
+    divReply.empty();
+    
+    dataList.forEach(function(data){
+      var post = $('<p class="post"/>');
+      
+      var divID = $('<div class="userName"/>').append($('<span>').append('By: ', usersList[data.userId - 1].name));    
+      var divTitle = $('<div class="title"/>').append(data.title);
+      var divBody = $('<div class="body"/>').append(data.body)
+      
+      divReply.append(post.append(divID,divTitle,divBody));
+      
+    });
+    
+  })
+  .catch(function(error) {
+    console.log('Fetch Post Error :-S', error);
+  });
+}
+
+
+
+$(document).ready(function() {
+  //Get Post On Document Ready
+  getUsers();
+})
+
+function searchUser(){
+  var userSelected = $('#selUser').val();
+  
+  if (userSelected != 0){
+    getPosts("?userId=" + userSelected);
+  }
+  else{
+    getPosts("");
+  }
+}
+
+function more() {
+  var dots = document.getElementById("dots");
+  var moreText = document.getElementById("more");
+  var btnText = document.getElementById("myBtn");
+
+  if (dots.style.display === "none") {
+    dots.style.display = "inline";
+    btnText.innerHTML = "Read more";
+    moreText.style.display = "none";
+  } else {
+    dots.style.display = "none";
+    btnText.innerHTML = "Read less";
+    moreText.style.display = "inline";
+  }
+}
+    
+
+
+</script>
+
+</body>
+
+<!--  
+<script>
+    function deleteRow(r) {
+            var i = r.parentNode.parentNode.rowIndex;
+            document.getElementById("myTable").deleteRow(i);
+        }
+    </script>-->
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+</head>
+<body>
+ <!--   THYMELEAF PAGE: <p th:text="${name}"></p>
+    <p th:text="${data}"></p>
+    <table border="2" width="70%" cellpadding="2">
+    <tr>
+        <th>id</th>
+        <th>First Name</th>
+        <th>set</th>
+	</tr>
+	
+	<tr th:each="app : ${data}" style="display: none;" name="rows">
+        <td th:text="${app.id}">   </td>
+        <td th:text="${app.user.getName()}"></td>
+        <td><button>abc</button></td>
+	</tr>
+	
+</table> --> 
+
+<form th:action="@{/interviewDateAndLocation/announce}" method ="post">
+                            <input type="submit"  name="Announce detailse" value="Announce interview date and location"/><br><br>                	
+</form>
+
+
+
+</body>
+</html>
+
+
+<script>
+
+var trs = document.getElementsByName("rows");
+var currentPage = 0;
+var numberOfPages =  Math.ceil(trs.length/2);
+
+
+
+window.onload = function(){ 
+	for(var i = 0; i < 2; i++){
+		if(i == trs.length)break;
+		trs[i].style.display="table-row";
+	}
+	for(var i = 0; i < numberOfPages; i++){
+		var lbl = document.createElement("LABEL");
+		lbl.name = "labels";
+		lbl.id=i;
+		lbl.innerHTML = " "+ i + " ";
+		lbl.style.color="blue";
+		lbl.onclick=function(){
+			goGivenPage(this.getAttribute('id'));	
+		}
+		document.body.appendChild(lbl);
+	}
+	
+
+}
+
+
+function goGivenPage(pageNo){
+	hidePrew();
+	currentPage = pageNo;
+	displayCurrentPage();
+}
+
+
+function hidePrew(){
+	for(var i = currentPage * 2; i < currentPage*2+ 2; i++){
+		if(i == trs.length)break;
+		trs[i].style.display="none";	
+	}
+	document.getElementById(currentPage).style.color="blue";
+}
+
+
+function displayCurrentPage(){
+	for(var i = currentPage * 2; i < currentPage * 2 + 2 ; i++){
+		if(i == trs.length)break;
+		trs[i].style.display="table-row";
+	}	
+	document.getElementById(currentPage).style.color="red";
+	
+}
+
+/*
+function next(){
+	if(currentPage + 1 == numberOfPages){
+		
+	}else{
+		hidePrew();
+		currentPage++;
+		displayCurrentPage();
+	}
+}
+
+function prev(){
+	if(currentPage == 0){
+		
+	}else{
+		hidePrew();
+		currentPage--;
+		displayCurrentPage();
+	}
+	
+	
+}
+
+*/
+
+
+
+
+</script>
+
+
+
+
+
+

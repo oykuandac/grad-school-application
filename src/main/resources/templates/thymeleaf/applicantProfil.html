@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+<style>
+button{
+  background-color: #424242;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 25%;
+  height: 15%;
+  font-family:TimesNewRoman;
+  font-size:25px;
+}
+
+.tab-content.profile-tab th{
+  font-weight:bold; font-family:TimesNewRoman;  font-size:25px;
+}
+
+.tab-content.profile-tab td{
+  font-weight:normal; font-family:TimesNewRoman;  font-size:23px;
+}
+
+.tab-content.profile-tab input{
+  word-wrap: break-word; color:black;
+  font-weight:normal; font-family:TimesNewRoman;  font-size:15px; margin-bottom: 10px;
+
+} 
+  .tab-content.profile-tab input:focus{
+  border-color:  #91080F;
+   box-shadow: 0 1px 1px rgba(255,0,0,0.3) inset, 0 0 8px rgba(207, 0, 15, 1);
+  
+}
+.tab-content.profile-tab input:hover{
+  border-color:  #91080F;
+}
+.tab-content.profile-tab input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 8px;
+    word-break: break-word;
+} 
+
+.container input::hover{
+  border-color:  #91080F;
+}
+.container input:focus{
+  border-color:  #91080F;
+   box-shadow: 0 1px 1px rgba(255,0,0,0.3) inset, 0 0 8px rgba(207, 0, 15, 1);
+  
+}
+.container input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 8px;
+}
+
+.container button{
+  background-color: #424242;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 25%;
+  height: 15%;
+  font-family:TimesNewRoman;
+  font-size:25px;
+}
+.modal-content.animate {
+  height: 100px;
+  width: 60%;
+}
+.modal-content.animate input:hover{
+  border-color:  #91080F;
+}
+.modal-content.animate input:focus{
+  border-color:  #91080F;
+   box-shadow: 0 1px 1px rgba(255,0,0,0.3) inset, 0 0 8px rgba(207, 0, 15, 1);
+  
+}
+.modal-content.animate input{
+  border: 1px  solid;
+  border-color:  #91080F;
+
+}
+.modal-content.animate button[type="submit"] {
+    background-color:  #91080F;
+    color: white;
+    padding: 6px;
+    margin-bottom: 8px;
+    width: 20%;
+    height: 10%;
+    font-family:TimesNewRoman;
+    font-size:20px;
+    float:center;
+} 
+</style>
+  <title>Applicant Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/account.css">
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+    <script type="text/javascript" src="/js/appGrad.js"></script>
+
+</head>
+<body>
+<div class="header">
+    <div class="header-section-1" >
+        <div class="site-logo" >
+            <a href="/index" class="header-logo" >
+              <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png" style="width: 
+              80%;">
+           </a>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" class="active">Home</a>
+  <a href="/news">Announcements</a>
+
+
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+
+<div class="container emp-profile" style="background-color: #f1f1f1;">
+         <div class="row">
+             <div class="col-md-4">
+                 <div class="profile-img">
+                     <img src="https://pngimage.net/wp-content/uploads/2018/06/profil-icon-png-4.png"alt=""/>
+                 </div>
+             </div>
+             <div class="col-md-6">
+                 <div class="profile-head">
+                             <h5 th:text="${user.name}">
+                             </h5>
+                             <h6>
+                                 Applicant
+                             </h6>
+                             <br><br>
+                     <ul class="nav nav-tabs" id="myTab" role="tablist">
+                         <li class="nav-item">
+                             <a class="nav-link" id="profile-tab"  style="color:#91080F">Applications</a>
+                         </li>
+                     </ul>
+                 </div>
+             </div>
+
+         </div>
+         <div class="row">
+             <div class="col-md-4">
+                 <div class="profile-work">
+                     <div class="row">
+                          <div class="col-md-6">
+                             <label>Name</label>
+                          </div>
+                          <div class="col-md-6">
+                            <p th:text="${user.name}"></p>
+                          </div>
+                       </div>
+                     <div class="row">
+                          <div class="col-md-6">
+                             <label>SurName</label>
+                          </div>
+                          <div class="col-md-6">
+                            <p th:text="${user.surname}">Def</p>
+                          </div>
+                       </div>
+                      <div class="row">
+                         <div class="col-md-6">
+                             <label>Email</label>
+                         </div>
+                         <div class="col-md-6">
+                           <p style="color:#6c757d" th:text="${user.email}"></p>
+                         </div>
+                     </div>
+                     
+                    <form th:action="logout" method="post" id="logoutform">
+							<input style="background-color: #808080;" type="submit" value="Logout"/>
+							<input type="hidden" name="${_csrf.parameterName}" value= "${_csrf.token}"/>
+							<h3 id="sa"></h3>
+	 					</form>
+
+
+                 </div>
+             </div>
+             <div class="col-md-8">
+                 <div class="tab-content profile-tab" id="myTabContent">
+                    <table id="myTable">
+                    		<tr>
+			                  <th style="width:250px">App id</th>
+			                  <th style="width:500px">Department Name</th>
+			                  <th  style="width:250px"></th>
+			                  <th style="width:300px"></th>
+          				  	</tr>                              		
+                           <tr th:each="app : ${apps}" name="rows">
+                             <td th:text = "${app.id}"></td>
+                             <td th:text = "${app.preApplication.dept}"></td>
+
+                               <td>
+                               	<form th:action="@{/update/preApplication}" method="get">
+                                    <input type=hidden name = "preAppId" th:value="${app.preApplication.id}">
+                             		<input type="submit" value="Update PreApplication Form">
+                                 </form>
+                                <!--<input type="submit"  onclick="openAddFilePane2()" style="float:left;" value="Add new files"></input>-->
+                                                                 
+                               </td>
+                               <td>
+
+                                  <input type="submit"  th:onclick="'javascript:openAddFilePane(' + ${app.id} + ')'"  value="Add new files"></input>
+                               </td>
+                           </tr>                                
+                      </table>
+                     <br>              
+             </div>
+         </div>
+     </div>
+</div>
+
+
+<div id="id01" align="center" class="modal" style="padding-top: 250px; ">
+  
+    <div class="container" style="height: 400px;" align="center"><br><br>
+    		<form class="modal-content animate"  style="width: 40%;"th:action="@{/uploadMultipleFiles}" method="post" enctype="multipart/form-data"><br>
+                <center> <input align="center" id="fileAppId" type="hidden" name="appId" /></center>
+               	<center> <input id="multipleFileUploadInput" type="file" name="files" class="file-input" multiple required /></center> 
+                <center><button type="submit" class="primary submit-btn">Submit</button></center>
+            </form>
+      
+    </div>
+</div>
+
+</body>
+
+<script>
+
+function openAddFilePane(appid){	
+	var modal = document.getElementById('id01').style.display='block'
+	var input = document.getElementById('fileAppId').value = appid
+	
+}
+
+function openAddFilePane2(){	
+	var modal = document.getElementById('id02').style.display='block'
+	
+}
+
+var modal = document.getElementById('id01');
+
+//When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+ if (event.target == modal) {
+     modal.style.display = "none";
+ }
+}
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+<!--  
+<script>
+    function deleteRow(r) {
+            var i = r.parentNode.parentNode.rowIndex;
+            document.getElementById("myTable").deleteRow(i);
+        }
+    </script>-->
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Department Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/grad.css">
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+<body>
+<div class="header">
+    <div class="header-section-1" >
+        <div class="site-logo" >
+            <a href="/index" class="header-logo" >
+              <img src = "https://en.iyte.edu.tr/wp-content/themes/IYTE/assets/img/logo-white-full-v-en.png" style="width: 
+              80%;">
+           </a>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="topnav" id="myTopnav">
+  <a href="/index" class="active" onclick="window.location.href = 'index';">Home</a>
+  <a href="/news" onclick="window.location.href = 'announcements.jsp';">Announcements</a>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
+
+
+
+<div class="container emp-profile" style="background-color: #e4e4e4;">
+   
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-img">
+                            <img src="https://pngimage.net/wp-content/uploads/2018/06/profil-icon-png-4.png"alt=""/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-head">                                   
+                                    <br><br>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab"  style="color:#91080F;background-color:#E4E4E4;border-color:#E4E4E4;">Operations</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                       
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="profile-work">
+                            
+                             <div class="row">
+                                <div class="col-md-8">
+                                    <label>Department</label>
+                                </div>
+                                <div class="col-md-8">
+                                  <p th:text="${username}"></p>
+                                </div>
+                            </div>
+							
+							      <form th:action="logout" method="post" id="logoutform">
+									<input style="background-color: #808080;" type="submit" value="Logout"/>
+									  <input type="hidden" name="${_csrf.parameterName}" value= "${_csrf.token}"/>
+										<h3 id="sa"></h3>
+	 							 </form>
+
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="tab-content profile-tab" id="myTabContent">
+                           
+                           <input type="button" value="Set Interview Date And Location" onclick = "window.open('applications/getAll','_self');" />
+                           <br><br>
+          				   <input type="button" value="Set Notes for Interviews" onclick = "window.open('getAllInterviews','_self');" />
+                    </div>
+                </div>
+
+        </div>
+  
+</body>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
+
+</html>
